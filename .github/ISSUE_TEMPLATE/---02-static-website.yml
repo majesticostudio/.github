@@ -1,0 +1,19 @@
+name: "\U0001F52C Static website analysis"
+description: Static website analysis
+labels: []
+assignees: []
+body:
+    - type: textarea
+      id: competitors
+      attributes:
+          label: List of competitors
+          description: List of competitors.
+      validations:
+          required: true
+    - type: textarea
+      id: inspirations
+      attributes:
+          label: Inspirations
+          description: List of websites inspirations.
+      validations:
+          required: true

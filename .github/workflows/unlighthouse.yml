@@ -1,0 +1,35 @@
+name: Unlighthouse assertions and static report
+
+on:
+  workflow_call:
+    inputs:
+      netlify_auth_token:
+        required: true
+        type: string
+      netlify_site_id:
+        required: true
+        type: string
+      unlighthouse_config_file:
+        required: true
+        type: string
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install Dependencies
+        run: bun install -g @unlighthouse/cli puppeteer netlify-cli
+      - name: Unlighthouse assertions and client
+        run: unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
+      - name: Deploy
+        run: netlify deploy --dir=.unlighthouse --prod --message="New Release Deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ inputs.netlify_auth_token }}
+          NETLIFY_SITE_ID: ${{ inputs.netlify_site_id }}

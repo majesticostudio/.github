@@ -3,12 +3,12 @@ name: Prepare demo
 on:
   workflow_call:
     inputs:
-      github_token:
-        required: true
-        type: string
       discussion_title:
         required: true
         type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   prepare-demo:
@@ -46,7 +46,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ inputs.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.BRANCH_NAME }}
           github_url: https://github.com
           push_to_submodules: on-demand

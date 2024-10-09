@@ -1,0 +1,46 @@
+name: Unlighthouse assertions and static report
+
+on:
+  workflow_dispatch:
+    inputs:
+      SITE_URL:
+        description: 'Site URL to scan'
+        required: true
+        type: string
+      NETLIFY_SITE_ID:
+        description: 'Netlify Site ID'
+        required: true
+        type: string
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install -g @unlighthouse/cli puppeteer netlify-cli
+
+      - name: Run Unlighthouse
+        run: |
+          unlighthouse-ci \
+            --site ${{ inputs.SITE_URL }} \
+            --scanner.exclude "^/cdn-cgi/" \
+            --scanner.dynamicSampling 2 \
+            --ci.budget 50 \
+            --ci.buildStatic \
+            --debug \
+            --no-cache
+
+      - name: Deploy
+        run: netlify deploy --dir=.unlighthouse --prod --message="New Release Deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ inputs.NETLIFY_SITE_ID }}

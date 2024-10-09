@@ -32,10 +32,7 @@ jobs:
         run: |
           unlighthouse-ci \
             --site ${{ inputs.SITE_URL }} \
-            --scanner.exclude "^/cdn-cgi/" \
-            --scanner.dynamicSampling 2 \
-            --ci.buildStatic \
-            --debug \
+            --build-static \
             --no-cache
 
       - name: Deploy

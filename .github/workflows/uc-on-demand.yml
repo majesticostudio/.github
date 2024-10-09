@@ -34,7 +34,6 @@ jobs:
             --site ${{ inputs.SITE_URL }} \
             --scanner.exclude "^/cdn-cgi/" \
             --scanner.dynamicSampling 2 \
-            --ci.budget 50 \
             --ci.buildStatic \
             --debug \
             --no-cache

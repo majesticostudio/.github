@@ -1,4 +1,4 @@
-name: Unlighthouse assertions and static report
+name: On demand Unlighthouse
 
 on:
   workflow_dispatch:

@@ -28,7 +28,7 @@ jobs:
         run: npx unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
 
       - name: Deploy
-        run: netlify deploy --dir=.unlighthouse --prod --message="New Release Deploy from GitHub Actions"
+        run: netlify deploy --dir=.unlighthouse --prod --message="New Release Deploy from GitHub Actions" --build=false
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

@@ -39,18 +39,10 @@ jobs:
           echo "Contents of the .unlighthouse directory (if it exists):"
           ls -la .unlighthouse || echo ".unlighthouse directory not found"
 
-      - name: Deploy report to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './.unlighthouse'
-          production-branch: main
-          production-deploy: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy Unlighthouse report from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
+      - name: Deploy to Netlify
+        run: |
+          echo "Deploying to Netlify..."
+          netlify deploy --dir=.unlighthouse --prod --message="Deploy Unlighthouse report from GitHub Actions"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 5

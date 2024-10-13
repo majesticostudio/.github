@@ -16,16 +16,16 @@ jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Dependencies
-        run: npm install -g @unlighthouse/cli puppeteer netlify-cli
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
       - name: Run Unlighthouse scan
-        run: npx unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
+        run: bun unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
 
       - name: Deploy report to Netlify
         uses: nwtgck/actions-netlify@v3.0

@@ -24,8 +24,11 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Install Dependencies
+        run: bun install -g @unlighthouse/cli puppeteer netlify-cli
+
       - name: Run Unlighthouse scan
-        run: bun unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
+        run: unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
 
       - name: Deploy report to Netlify
         uses: nwtgck/actions-netlify@v3.0

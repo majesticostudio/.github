@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Dependencies
-        run: npm install @unlighthouse/cli puppeteer
+        run: npm install -g @unlighthouse/cli puppeteer
 
       - name: Run Unlighthouse scan
         run: npx unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}

@@ -30,6 +30,15 @@ jobs:
       - name: Run Unlighthouse scan
         run: unlighthouse-ci --config-file ${{ inputs.unlighthouse_config_file }}
 
+      - name: Show current directory contents
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Contents of the current directory:"
+          ls -la
+          echo "Contents of the .unlighthouse directory (if it exists):"
+          ls -la .unlighthouse || echo ".unlighthouse directory not found"
+
       - name: Deploy report to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:

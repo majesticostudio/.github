@@ -28,7 +28,7 @@ jobs:
         run: npx unlighthouse-ci --site ${{ inputs.SITE_URL }} --build-static
 
       - name: Deploy report to Netlify
-        uses: nwtgck/actions-netlify@v2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './.unlighthouse'
           production-branch: main

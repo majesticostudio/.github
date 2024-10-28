@@ -27,18 +27,19 @@ jobs:
       - name: Run Unlighthouse scan
         run: npx unlighthouse-ci --site ${{ inputs.SITE_URL }} --build-static
 
-      - name: Deploy report to Netlify
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './.unlighthouse'
-          production-branch: main
-          production-deploy: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy Unlighthouse report from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
+      - name: Show current directory contents
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Contents of the current directory:"
+          ls -la
+          echo "Contents of the .unlighthouse directory (if it exists):"
+          ls -la .unlighthouse || echo ".unlighthouse directory not found"
+
+      - name: Deploy to Netlify
+        run: |
+          echo "Deploying to Netlify..."
+          netlify deploy --dir=.unlighthouse --build false --prod --message="Deploy Unlighthouse report from GitHub Actions"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ inputs.NETLIFY_SITE_ID }}
-        timeout-minutes: 5
